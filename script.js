@@ -1,21 +1,18 @@
-// ==========================================
-// WATER DROP - CHARITY: WATER GAME
-// Simple Tap-to-Collect Game Logic
-// ==========================================
+// WATER DROP GAME - SIMPLE VERSION THAT WORKS
 
-// ===== GAME CONFIGURATION =====
+// CONFIG
 const CONFIG = {
-    GAME_DURATION: 60, // seconds
+    GAME_DURATION: 60,
     CLEAN_DROP_POINTS: 10,
     POLLUTED_DROP_PENALTY: 15,
-    DROP_SPAWN_INTERVAL: 800, // milliseconds
-    DROP_FALL_DURATION: 4000, // milliseconds
-    POLLUTED_DROP_CHANCE: 0.25, // 25% chance
+    DROP_SPAWN_INTERVAL: 800,
+    DROP_FALL_DURATION: 4000,
+    POLLUTED_DROP_CHANCE: 0.25,
     STREAK_BONUS_THRESHOLD: 5,
-    FACT_SHOW_INTERVAL: 20 // Show fact every 20 seconds
+    FACT_SHOW_INTERVAL: 20
 };
 
-// ===== CHARITY: WATER FACTS =====
+// FACTS
 const WATER_FACTS = [
     "771 million people worldwide lack access to clean water - that's 1 in 10 people.",
     "Women and children spend 200 million hours every day collecting water.",
@@ -29,7 +26,7 @@ const WATER_FACTS = [
     "With clean water, communities can break the cycle of poverty and disease."
 ];
 
-// ===== GAME STATE =====
+// GAME STATE
 let gameState = {
     score: 0,
     timeLeft: CONFIG.GAME_DURATION,
@@ -38,150 +35,18 @@ let gameState = {
     cleanDropsCollected: 0,
     pollutedDropsAvoided: 0,
     pollutedDropsHit: 0,
-    totalDropsSpawned: 0,
     gameRunning: false,
-    currentScreen: 'title',
     lastFactTime: 0
 };
 
-// ===== DOM ELEMENTS =====
-const titleScreen = document.getElementById('titleScreen');
-const gameScreen = document.getElementById('gameScreen');
-const gameOverScreen = document.getElementById('gameOverScreen');
-const factPopup = document.getElementById('factPopup');
-
-const startGameBtn = document.getElementById('startGameBtn');
-const playAgainBtn = document.getElementById('playAgainBtn');
-const learnMoreBtn = document.getElementById('learnMoreBtn');
-const continueBtn = document.getElementById('continueBtn');
-
-const gameArea = document.getElementById('gameArea');
-const scoreValue = document.getElementById('scoreValue');
-const timerValue = document.getElementById('timerValue');
-const streakValue = document.getElementById('streakValue');
-const feedbackMessage = document.getElementById('feedbackMessage');
-const progressFill = document.getElementById('progressFill');
-const progressPercent = document.getElementById('progressPercent');
-
-const factText = document.getElementById('factText');
-const finalScore = document.getElementById('finalScore');
-const cleanDrops = document.getElementById('cleanDrops');
-const pollutionAvoided = document.getElementById('pollutionAvoided');
-const bestStreak = document.getElementById('bestStreak');
-const performanceText = document.getElementById('performanceText');
-const impactText = document.getElementById('impactText');
-const bottlesCount = document.getElementById('bottlesCount');
-
-// ===== TIMERS =====
 let gameTimer;
 let spawnTimer;
-let gameStartTime;
 
-// ===== INITIALIZATION - RUNS WHEN PAGE LOADS =====
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM Content Loaded - Initializing game...');
-    init();
-});
-
-// ===== INITIALIZATION =====
-function init() {
-    console.log('Init function called');
-    console.log('Start button element:', document.getElementById('startGameBtn'));
-    
-    // Wait a moment to ensure DOM is fully ready
-    setTimeout(() => {
-        setupEventListeners();
-    }, 100);
-}
-
-// ===== EVENT LISTENERS =====
-function setupEventListeners() {
-    console.log('Setting up event listeners...');
-    
-    const startBtn = document.getElementById('startGameBtn');
-    const playBtn = document.getElementById('playAgainBtn');
-    const learnBtn = document.getElementById('learnMoreBtn');
-    const contBtn = document.getElementById('continueBtn');
-    
-    console.log('Found buttons:', {
-        start: startBtn,
-        playAgain: playBtn,
-        learnMore: learnBtn,
-        continue: contBtn
-    });
-    
-    if (startBtn) {
-        startBtn.onclick = function(e) {
-            console.log('START BUTTON CLICKED!');
-            e.preventDefault();
-            e.stopPropagation();
-            startGame();
-        };
-        console.log('✓ Start button click handler attached');
-    } else {
-        console.error('✗ Start button not found in DOM!');
-    }
-    
-    if (playBtn) {
-        playBtn.onclick = function(e) {
-            console.log('Play again clicked');
-            e.preventDefault();
-            e.stopPropagation();
-            startGame();
-        };
-        console.log('✓ Play again button handler attached');
-    }
-    
-    if (learnBtn) {
-        learnBtn.onclick = function(e) {
-            console.log('Learn more clicked');
-            e.preventDefault();
-            e.stopPropagation();
-            showFactPopup();
-        };
-        console.log('✓ Learn more button handler attached');
-    }
-    
-    if (contBtn) {
-        contBtn.onclick = function(e) {
-            console.log('Continue clicked');
-            e.preventDefault();
-            e.stopPropagation();
-            hideFactPopup();
-        };
-        console.log('✓ Continue button handler attached');
-    }
-    
-    console.log('Event listener setup complete!');
-}
-
-// ===== SCREEN MANAGEMENT =====
-function showScreen(screenName) {
-    console.log('Showing screen:', screenName);
-    titleScreen.classList.remove('active');
-    gameScreen.classList.remove('active');
-    gameOverScreen.classList.remove('active');
-
-    switch(screenName) {
-        case 'title':
-            titleScreen.classList.add('active');
-            break;
-        case 'game':
-            gameScreen.classList.add('active');
-            break;
-        case 'gameover':
-            gameOverScreen.classList.add('active');
-            break;
-    }
-    
-    gameState.currentScreen = screenName;
-}
-
-// ===== START GAME =====
+// START GAME
 function startGame() {
-    console.log('Starting game...');
+    console.log('GAME STARTING!');
     
-    // Reset game state
+    // Reset state
     gameState = {
         score: 0,
         timeLeft: CONFIG.GAME_DURATION,
@@ -190,259 +55,29 @@ function startGame() {
         cleanDropsCollected: 0,
         pollutedDropsAvoided: 0,
         pollutedDropsHit: 0,
-        totalDropsSpawned: 0,
         gameRunning: true,
-        currentScreen: 'game',
         lastFactTime: 0
     };
     
-    console.log('Game state reset');
-    
-    // Clear game area
-    gameArea.innerHTML = '';
+    // Clear drops
+    document.getElementById('gameArea').innerHTML = '';
     
     // Update UI
     updateHUD();
-    showScreen('game');
     
-    console.log('Screen changed to game');
+    // Show game screen
+    document.getElementById('titleScreen').classList.remove('active');
+    document.getElementById('gameScreen').classList.add('active');
+    document.getElementById('gameOverScreen').classList.remove('active');
     
-    // Start game timers
-    gameStartTime = Date.now();
-    gameTimer = setInterval(updateTimer, 1000);
-    spawnTimer = setInterval(spawnDrop, CONFIG.DROP_SPAWN_INTERVAL);
-    
-    console.log('Timers started');
-    
-    // Spawn first drop immediately
-    spawnDrop();
-    console.log('First drop spawned');
-}
-
-// ===== UPDATE TIMER =====
-function updateTimer() {
-    gameState.timeLeft--;
-    timerValue.textContent = gameState.timeLeft;
-    
-    // Check for fact popup (every 20 seconds)
-    const elapsedTime = CONFIG.GAME_DURATION - gameState.timeLeft;
-    if (elapsedTime > 0 && elapsedTime % CONFIG.FACT_SHOW_INTERVAL === 0 && 
-        elapsedTime !== gameState.lastFactTime) {
-        gameState.lastFactTime = elapsedTime;
-        pauseGameForFact();
-    }
-    
-    // Game over
-    if (gameState.timeLeft <= 0) {
-        endGame();
-    }
-    
-    // Visual warning when time is low
-    if (gameState.timeLeft <= 10) {
-        timerValue.style.color = 'var(--pollution-red)';
-        timerValue.style.animation = 'pulse 0.5s ease-in-out infinite';
-    }
-}
-
-// ===== SPAWN DROP =====
-function spawnDrop() {
-    if (!gameState.gameRunning) return;
-    
-    const drop = document.createElement('div');
-    drop.className = 'water-drop';
-    
-    // Determine if clean or polluted
-    const isPolluted = Math.random() < CONFIG.POLLUTED_DROP_CHANCE;
-    drop.classList.add(isPolluted ? 'polluted' : 'clean');
-    drop.dataset.isPolluted = isPolluted;
-    
-    // Random horizontal position
-    const maxX = gameArea.clientWidth - 60;
-    const randomX = Math.random() * maxX;
-    drop.style.left = randomX + 'px';
-    
-    // Set fall animation
-    const fallDuration = CONFIG.DROP_FALL_DURATION;
-    drop.style.animationDuration = fallDuration + 'ms';
-    
-    // Add click handler
-    drop.addEventListener('click', () => handleDropClick(drop));
-    
-    // Add to game area
-    gameArea.appendChild(drop);
-    gameState.totalDropsSpawned++;
-    
-    // Remove drop after it falls off screen
-    setTimeout(() => {
-        if (drop.parentNode && !drop.dataset.clicked) {
-            // Drop missed - count as avoided if polluted
-            if (drop.dataset.isPolluted === 'true') {
-                gameState.pollutedDropsAvoided++;
-            }
-            drop.remove();
-        }
-    }, fallDuration);
-}
-
-// ===== HANDLE DROP CLICK =====
-function handleDropClick(drop) {
-    if (drop.dataset.clicked) return; // Already clicked
-    drop.dataset.clicked = 'true';
-    
-    const isPolluted = drop.dataset.isPolluted === 'true';
-    
-    if (isPolluted) {
-        // Hit polluted drop - penalty
-        gameState.score = Math.max(0, gameState.score - CONFIG.POLLUTED_DROP_PENALTY);
-        gameState.streak = 0;
-        gameState.pollutedDropsHit++;
-        showFeedback('Pollution! -' + CONFIG.POLLUTED_DROP_PENALTY, 'bad');
-    } else {
-        // Collected clean drop - reward
-        gameState.score += CONFIG.CLEAN_DROP_POINTS;
-        gameState.streak++;
-        gameState.cleanDropsCollected++;
-        
-        // Update best streak
-        if (gameState.streak > gameState.bestStreak) {
-            gameState.bestStreak = gameState.streak;
-        }
-        
-        // Streak bonus
-        if (gameState.streak % CONFIG.STREAK_BONUS_THRESHOLD === 0) {
-            const bonus = 20;
-            gameState.score += bonus;
-            showFeedback('Streak! +' + bonus, 'streak');
-        } else {
-            showFeedback('+' + CONFIG.CLEAN_DROP_POINTS, 'good');
-        }
-    }
-    
-    // Visual feedback
-    drop.style.animation = 'none';
-    drop.style.transition = 'all 0.3s ease';
-    drop.style.transform = 'scale(0)';
-    drop.style.opacity = '0';
-    
-    setTimeout(() => drop.remove(), 300);
-    
-    updateHUD();
-}
-
-// ===== SHOW FEEDBACK =====
-function showFeedback(message, type) {
-    feedbackMessage.textContent = message;
-    feedbackMessage.className = 'feedback-message ' + type;
-    feedbackMessage.style.animation = 'none';
-    
-    // Trigger reflow
-    void feedbackMessage.offsetWidth;
-    
-    feedbackMessage.style.animation = 'fadeOutUp 1s ease';
-}
-
-// ===== UPDATE HUD =====
-function updateHUD() {
-    scoreValue.textContent = gameState.score;
-    streakValue.textContent = gameState.streak;
-    
-    // Update progress bar (based on clean drops collected)
-    const targetDrops = 50; // Target for 100%
-    const percentage = Math.min(100, Math.round((gameState.cleanDropsCollected / targetDrops) * 100));
-    progressFill.style.width = percentage + '%';
-    progressPercent.textContent = percentage + '%';
-}
-
-// ===== PAUSE GAME FOR FACT =====
-function pauseGameForFact() {
-    gameState.gameRunning = false;
-    clearInterval(spawnTimer);
-    
-    // Pause all drops
-    const drops = document.querySelectorAll('.water-drop');
-    drops.forEach(drop => {
-        const computedStyle = window.getComputedStyle(drop);
-        const transform = computedStyle.transform;
-        drop.style.animation = 'none';
-        drop.style.transform = transform;
-    });
-    
-    showFactPopup();
-}
-
-// ===== SHOW FACT POPUP =====
-function showFactPopup() {
-    const randomFact = WATER_FACTS[Math.floor(Math.random() * WATER_FACTS.length)];
-    factText.textContent = randomFact;
-    factPopup.classList.add('active');
-}
-
-// ===== HIDE FACT POPUP =====
-function hideFactPopup() {
-    factPopup.classList.remove('active');
-    
-    if (gameState.currentScreen === 'game' && gameState.timeLeft > 0) {
-        // Resume game
-        gameState.gameRunning = true;
-        
-        // Resume drops
-        const drops = document.querySelectorAll('.water-drop');
-        drops.forEach(drop => {
-            const currentTop = parseInt(drop.style.transform.match(/translateY\(([^)]+)\)/)?.[1] || 0);
-            const totalHeight = window.innerHeight + 100;
-            const remainingDistance = totalHeight - currentTop;
-            const remainingDuration = (remainingDistance / totalHeight) * CONFIG.DROP_FALL_DURATION;
-            
-            drop.style.animation = `fall ${remainingDuration}ms linear`;
-        });
-        
-        spawnTimer = setInterval(spawnDrop, CONFIG.DROP_SPAWN_INTERVAL);
-    }
-}
-
-// ===== END GAME =====
-function endGame() {
-    gameState.gameRunning = false;
+    // Start timers
     clearInterval(gameTimer);
     clearInterval(spawnTimer);
     
-    // Clear remaining drops
-    gameArea.innerHTML = '';
+    gameTimer = setInterval(updateTimer, 1000);
+    spawnTimer = setInterval(spawnDrop, CONFIG.DROP_SPAWN_INTERVAL);
     
-    // Show game over screen
-    showGameOverScreen();
+    spawnDrop();
+    
+    console.log('GAME STARTED!');
 }
-
-// ===== SHOW GAME OVER SCREEN =====
-function showGameOverScreen() {
-    // Update stats
-    finalScore.textContent = gameState.score;
-    cleanDrops.textContent = gameState.cleanDropsCollected;
-    pollutionAvoided.textContent = gameState.pollutedDropsAvoided;
-    bestStreak.textContent = gameState.bestStreak;
-    
-    // Calculate bottles (10 drops = 1 bottle)
-    const bottles = Math.floor(gameState.cleanDropsCollected / 10);
-    bottlesCount.textContent = bottles;
-    impactText.innerHTML = `You collected enough drops to fill <strong id="bottlesCount">${bottles}</strong> water bottle${bottles !== 1 ? 's' : ''}!`;
-    
-    // Performance message
-    let performance = '';
-    if (gameState.score >= 400) {
-        performance = '🌟 Outstanding! You\'re a water conservation champion!';
-    } else if (gameState.score >= 300) {
-        performance = '🎉 Excellent work! You really understand the importance of clean water!';
-    } else if (gameState.score >= 200) {
-        performance = '👏 Great job! You\'re making a real difference!';
-    } else if (gameState.score >= 100) {
-        performance = '💪 Good effort! Keep learning about clean water access!';
-    } else {
-        performance = '💙 Every drop counts! Try again to improve your score!';
-    }
-    performanceText.textContent = performance;
-    
-    showScreen('gameover');
-}
-
-// ===== START THE GAME =====
-init();
