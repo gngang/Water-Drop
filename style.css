@@ -1,86 +1,64 @@
-/* Charity: water branding inspired — Yellow (#FFD200) and Blue (#0077C8) */
-body {
-  font-family: 'Press Start 2P', monospace;
-  background-color: #f0f8ff;
-  color: #333;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-}
+/* style.css
+   Pixelated, responsive canvas + UI
+   Charity: Water inspired palette (blue + yellow accents)
+*/
 
-header {
-  background-color: #ffd200;
-  color: #0077c8;
-  padding: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+/* Basic page layout */
+:root{
+  --cw-blue: #1b9bd7;
+  --cw-yellow: #ffd24a;
+  --bg: #eaf6ff;
+  --panel: #ffffff;
+  --muted: #06545a;
 }
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:linear-gradient(#e9fbff,#dff6ff);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+#app{max-width:1200px;margin:12px auto;padding:8px}
 
-.subtitle {
-  font-size: 0.8em;
-}
+/* Header with title, meter, score */
+#header{display:flex;justify-content:space-between;align-items:center;padding:8px 10px}
+#logo{display:flex;gap:12px;align-items:center}
+#logo-mark{width:56px;height:56px;border-radius:8px;background:linear-gradient(#bfefff,var(--cw-blue));display:flex;align-items:center;justify-content:center;font-weight:900;color:#03343a}
+#title{font-size:18px;font-weight:900;color:#043033}
+#subtitle{font-size:12px;color:var(--muted);opacity:.9}
+#header-right{display:flex;gap:14px;align-items:center}
+#score{font-weight:800;color:#043033}
 
-#game-zone {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-}
+/* meter */
+#meter-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+#meter-label{font-size:12px;color:var(--muted)}
+#water-meter{width:220px;height:14px;background:rgba(0,0,0,.06);border-radius:8px;overflow:hidden}
+#water-bar{height:100%;width:0%;background:linear-gradient(90deg,#6fe6ff,var(--cw-blue));transition:width .2s}
 
-canvas {
-  border: 3px solid #0077c8;
-  background: url('campus-bg-pixel.png') repeat-x;
-  background-size: cover;
-  image-rendering: pixelated;
-}
+/* Game area */
+#game-area{display:flex;align-items:center;justify-content:center;background:transparent;padding:8px}
+canvas{background:linear-gradient(#bfefff,#9fdfff);border:6px solid rgba(3,20,25,.06);image-rendering:pixelated;display:block;width:100%;max-width:100%;height:auto}
 
-#character-select {
-  margin: 15px;
-}
+/* Overlays */
+.overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:40}
+.overlay .panel{background:rgba(255,255,255,0.98);padding:18px;border-radius:12px;box-shadow:0 12px 40px rgba(3,30,40,.12);width:360px;max-width:94%}
+.fact-panel{background:linear-gradient(#ffffff,#f0fbff);padding:12px;border-radius:10px;box-shadow:0 12px 30px rgba(3,30,40,.1);max-width:520px}
+.fact-title{font-weight:900;color:var(--cw-blue);margin-bottom:8px}
 
-.char-btn {
-  background-color: #0077c8;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 5px;
-}
-.char-btn:hover {
-  background-color: #005fa3;
-}
+/* small helpers */
+.muted{color:var(--muted);font-size:13px}
+.small{font-size:12px;color:var(--muted)}
 
-#fact-box {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  background-color: rgba(0, 119, 200, 0.9);
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 0.9em;
-  animation: fadein 0.5s;
-}
+/* Buttons */
+.actions{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.main-btn{background:var(--cw-blue);color:white;padding:10px 14px;border-radius:8px;border:none;font-weight:800;cursor:pointer}
+.ghost-btn{background:transparent;border:2px solid rgba(3,30,40,.06);padding:8px 12px;border-radius:8px;cursor:pointer}
+.char-select{display:flex;gap:8px;justify-content:center;margin-top:10px}
+.char-btn{padding:8px 10px;border-radius:8px;background:white;border:2px solid rgba(3,30,40,.06);cursor:pointer;font-weight:700}
+.char-btn.selected{outline:3px solid var(--cw-yellow)}
 
-.hidden {
-  display: none;
-}
+/* footer */
+#footer{text-align:center;margin-top:12px;color:var(--muted);font-size:12px}
 
-@keyframes fadein {
-  from {opacity: 0;}
-  to {opacity: 1;}
+/* Responsive: set canvas aspect ratio and size */
+@media (min-width:900px){
+  canvas{width:920px;height:480px}
 }
-
-/* Responsive Design (Bonus) */
-@media (max-width: 768px) {
-  canvas {
-    width: 90%;
-    height: auto;
-  }
-  #fact-box {
-    width: 80%;
-    font-size: 0.8em;
-  }
+@media (max-width:899px){
+  canvas{width:92vw;height:48vw}
 }
