@@ -77,52 +77,87 @@ let gameTimer;
 let spawnTimer;
 let gameStartTime;
 
+// ===== INITIALIZATION - RUNS WHEN PAGE LOADS =====
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded - Initializing game...');
+    init();
+});
+
 // ===== INITIALIZATION =====
 function init() {
-    console.log('Game initializing...');
-    console.log('Start button:', startGameBtn);
-    setupEventListeners();
+    console.log('Init function called');
+    console.log('Start button element:', document.getElementById('startGameBtn'));
+    
+    // Wait a moment to ensure DOM is fully ready
+    setTimeout(() => {
+        setupEventListeners();
+    }, 100);
 }
 
 // ===== EVENT LISTENERS =====
 function setupEventListeners() {
-    if (startGameBtn) {
-        startGameBtn.addEventListener('click', function(e) {
+    console.log('Setting up event listeners...');
+    
+    const startBtn = document.getElementById('startGameBtn');
+    const playBtn = document.getElementById('playAgainBtn');
+    const learnBtn = document.getElementById('learnMoreBtn');
+    const contBtn = document.getElementById('continueBtn');
+    
+    console.log('Found buttons:', {
+        start: startBtn,
+        playAgain: playBtn,
+        learnMore: learnBtn,
+        continue: contBtn
+    });
+    
+    if (startBtn) {
+        startBtn.onclick = function(e) {
+            console.log('START BUTTON CLICKED!');
             e.preventDefault();
             e.stopPropagation();
-            console.log('Start button clicked!');
             startGame();
-        });
-        console.log('Start button listener attached');
+        };
+        console.log('✓ Start button click handler attached');
     } else {
-        console.error('Start button not found!');
+        console.error('✗ Start button not found in DOM!');
     }
     
-    if (playAgainBtn) {
-        playAgainBtn.addEventListener('click', function(e) {
+    if (playBtn) {
+        playBtn.onclick = function(e) {
+            console.log('Play again clicked');
             e.preventDefault();
-            console.log('Play again clicked!');
+            e.stopPropagation();
             startGame();
-        });
+        };
+        console.log('✓ Play again button handler attached');
     }
     
-    if (learnMoreBtn) {
-        learnMoreBtn.addEventListener('click', function(e) {
+    if (learnBtn) {
+        learnBtn.onclick = function(e) {
+            console.log('Learn more clicked');
             e.preventDefault();
+            e.stopPropagation();
             showFactPopup();
-        });
+        };
+        console.log('✓ Learn more button handler attached');
     }
     
-    if (continueBtn) {
-        continueBtn.addEventListener('click', function(e) {
+    if (contBtn) {
+        contBtn.onclick = function(e) {
+            console.log('Continue clicked');
             e.preventDefault();
+            e.stopPropagation();
             hideFactPopup();
-        });
+        };
+        console.log('✓ Continue button handler attached');
     }
+    
+    console.log('Event listener setup complete!');
 }
 
 // ===== SCREEN MANAGEMENT =====
 function showScreen(screenName) {
+    console.log('Showing screen:', screenName);
     titleScreen.classList.remove('active');
     gameScreen.classList.remove('active');
     gameOverScreen.classList.remove('active');
@@ -144,6 +179,8 @@ function showScreen(screenName) {
 
 // ===== START GAME =====
 function startGame() {
+    console.log('Starting game...');
+    
     // Reset game state
     gameState = {
         score: 0,
@@ -159,6 +196,8 @@ function startGame() {
         lastFactTime: 0
     };
     
+    console.log('Game state reset');
+    
     // Clear game area
     gameArea.innerHTML = '';
     
@@ -166,13 +205,18 @@ function startGame() {
     updateHUD();
     showScreen('game');
     
+    console.log('Screen changed to game');
+    
     // Start game timers
     gameStartTime = Date.now();
     gameTimer = setInterval(updateTimer, 1000);
     spawnTimer = setInterval(spawnDrop, CONFIG.DROP_SPAWN_INTERVAL);
     
+    console.log('Timers started');
+    
     // Spawn first drop immediately
     spawnDrop();
+    console.log('First drop spawned');
 }
 
 // ===== UPDATE TIMER =====
