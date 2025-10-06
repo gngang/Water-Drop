@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Water Flow: Campus Quest</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>💧 Water Flow: Campus Quest 💧</h1>
+    <p class="subtitle">
+      Help our students clean the campus and learn about <strong>charity: water</strong>!
+    </p>
+  </header>
+
+  <!-- Game Canvas -->
+  <main id="game-zone">
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+  </main>
+
+  <!-- Character Selection -->
+  <section id="character-select">
+    <h2>Select Your Character</h2>
+    <button class="char-btn" data-char="boy">Boy Student</button>
+    <button class="char-btn" data-char="girl">Girl Student</button>
+  </section>
+
+  <!-- Fact Popup -->
+  <div id="fact-box" class="hidden"></div>
+
+  <!-- Game Instructions -->
+  <footer>
+    <h3>Controls</h3>
+    <p>Use <strong>WASD</strong> or <strong>Arrow Keys</strong> to move. Space to jump.</p>
+    <p>Goal: Jump over pollution, collect water, and reach each flag for facts!</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
