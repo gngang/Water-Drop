@@ -84,12 +84,27 @@ function init() {
 
 // ===== EVENT LISTENERS =====
 function setupEventListeners() {
-    startGameBtn.addEventListener('click', startGame);
-    playAgainBtn.addEventListener('click', startGame);
-    learnMoreBtn.addEventListener('click', () => {
+    startGameBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Start button clicked!');
+        startGame();
+    });
+    
+    playAgainBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Play again clicked!');
+        startGame();
+    });
+    
+    learnMoreBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         showFactPopup();
     });
-    continueBtn.addEventListener('click', hideFactPopup);
+    
+    continueBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        hideFactPopup();
+    });
 }
 
 // ===== SCREEN MANAGEMENT =====
@@ -373,5 +388,3 @@ function showGameOverScreen() {
 
 // ===== START THE GAME =====
 init();
-
-
