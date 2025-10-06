@@ -60,7 +60,9 @@ function startGame() {
     };
     
     // Clear drops
-    document.getElementById('gameArea').innerHTML = '';
+    const gameArea = document.getElementById('gameArea');
+    gameArea.innerHTML = '';
+    console.log('Game area cleared');
     
     // Update UI
     updateHUD();
@@ -69,6 +71,7 @@ function startGame() {
     document.getElementById('titleScreen').classList.remove('active');
     document.getElementById('gameScreen').classList.add('active');
     document.getElementById('gameOverScreen').classList.remove('active');
+    console.log('Game screen shown');
     
     // Start timers
     clearInterval(gameTimer);
@@ -77,7 +80,11 @@ function startGame() {
     gameTimer = setInterval(updateTimer, 1000);
     spawnTimer = setInterval(spawnDrop, CONFIG.DROP_SPAWN_INTERVAL);
     
+    // Spawn first drops immediately
     spawnDrop();
+    setTimeout(() => spawnDrop(), 200);
+    setTimeout(() => spawnDrop(), 400);
     
-    console.log('GAME STARTED!');
+    console.log('GAME STARTED! Drops should be spawning...');
+    console.log('Game area dimensions:', gameArea.clientWidth, 'x', gameArea.clientHeight);
 }
