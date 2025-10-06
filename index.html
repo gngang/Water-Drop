@@ -14,7 +14,7 @@
             <div class="logo-container">
                 <div class="logo-circle">
                     <svg viewBox="0 0 100 100" class="logo-droplet">
-                        <path d="M50 10 C30 40, 20 50, 20 65 C20 80, 32 90, 50 90 C68 90, 80 80, 80 65 C80 50, 70 40, 50 10 Z" fill="#FFD700"/>
+                        <path d="M50 20 C35 45, 25 55, 25 70 C25 82, 36 90, 50 90 C64 90, 75 82, 75 70 C75 55, 65 45, 50 20 Z" fill="#FFD700"/>
                     </svg>
                 </div>
                 <h1 class="game-title">Water Drop</h1>
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <button class="start-btn" id="startGameBtn">Start Collecting</button>
+            <button class="start-btn" onclick="startGame()">START COLLECTING</button>
 
             <div class="branding-footer">
                 <p>Inspired by charity: water's mission to bring clean water to communities worldwide</p>
@@ -57,7 +57,7 @@
             <div class="hud-left">
                 <div class="logo-small">
                     <svg viewBox="0 0 100 100" class="logo-droplet-small">
-                        <path d="M50 10 C30 40, 20 50, 20 65 C20 80, 32 90, 50 90 C68 90, 80 80, 80 65 C80 50, 70 40, 50 10 Z" fill="#FFD700"/>
+                        <path d="M50 20 C35 45, 25 55, 25 70 C25 82, 36 90, 50 90 C64 90, 75 82, 75 70 C75 55, 65 45, 50 20 Z" fill="#FFD700"/>
                     </svg>
                 </div>
                 <div class="score-display">
@@ -101,7 +101,7 @@
             <div class="fact-icon">💧</div>
             <h2>Did You Know?</h2>
             <div id="factText" class="fact-text"></div>
-            <button class="continue-btn" id="continueBtn">Continue Playing</button>
+            <button class="continue-btn" onclick="hideFactPopup()">Continue Playing</button>
         </div>
     </div>
 
@@ -155,8 +155,8 @@
             </div>
 
             <div class="action-buttons">
-                <button class="btn-primary" id="playAgainBtn">Play Again</button>
-                <button class="btn-secondary" id="learnMoreBtn">Learn More</button>
+                <button class="btn-primary" onclick="startGame()">Play Again</button>
+                <button class="btn-secondary" onclick="showFactPopup()">Learn More</button>
             </div>
 
             <div class="charity-cta">
