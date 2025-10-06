@@ -1,73 +1,171 @@
-/* File: index.html
-   Purpose: Entry point for Water Drop game prototype.
-   Place this file at the project root and include styles.css and app.js in same folder.
-*/
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Water Drop — Charity: Water Mini Game (Prototype)</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Drop - charity: water Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app">
-    <header class="header">
-      <div class="brand">
-        <!-- stylized droplet + title -->
-        <svg class="logo" viewBox="0 0 64 64" aria-hidden>
-          <defs>
-            <linearGradient id="g" x1="0" x2="1">
-              <stop offset="0" stop-color="#ffffff"/>
-              <stop offset="1" stop-color="#0B3D91"/>
-            </linearGradient>
-          </defs>
-          <path d="M32 2C32 2 10 26 10 40a22 22 0 0 0 44 0C54 26 32 2 32 2z" fill="#0B3D91"/>
-          <path d="M32 6s10.5 10.5 10.5 22.5S39 46 32 50 21.5 46 21.5 28.5 32 6 32 6z" fill="#fff" opacity="0.08"/>
-        </svg>
-        <div class="title-wrap">
-          <h1 class="title">Water Drop</h1>
-          <div class="subtitle">Tap to collect clean water · Fight pollution</div>
+    <!-- TITLE SCREEN -->
+    <div id="titleScreen" class="screen active">
+        <div class="screen-content">
+            <!-- charity: water Logo -->
+            <div class="logo-container">
+                <div class="logo-circle">
+                    <svg viewBox="0 0 100 100" class="logo-droplet">
+                        <path d="M50 20 C35 45, 25 55, 25 70 C25 82, 36 90, 50 90 C64 90, 75 82, 75 70 C75 55, 65 45, 50 20 Z" fill="#FFD700"/>
+                    </svg>
+                </div>
+                <h1 class="game-title">Water Drop</h1>
+                <p class="tagline">A charity: water Mission Game</p>
+            </div>
+
+            <div class="mission-text">
+                <p>Tap to collect clean water drops!</p>
+                <p>Avoid polluted drops to keep your water clean.</p>
+                <p class="small-text">Learn facts about clean water access while you play</p>
+            </div>
+
+            <!-- How to Play -->
+            <div class="how-to-play">
+                <h3>How to Play</h3>
+                <div class="instructions">
+                    <div class="instruction-item">
+                        <div class="icon-box good-drop">💧</div>
+                        <p><strong>Tap Blue Drops</strong><br>Collect clean water: +10 points</p>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="icon-box bad-drop">☠️</div>
+                        <p><strong>Avoid Pollution</strong><br>Polluted drops: -15 points</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="start-btn" onclick="startGame()">START COLLECTING</button>
+
+            <div class="branding-footer">
+                <p>Inspired by charity: water's mission to bring clean water to communities worldwide</p>
+            </div>
         </div>
-      </div>
-      <div class="hud">
-        <div class="score">Score: <span id="score">0</span></div>
-        <div class="meter-wrap" title="Water Meter">
-          <div class="meter-label">Water</div>
-          <div id="waterMeter" class="meter">
-            <div id="meterFill" class="meter-fill" style="width:0%"></div>
-          </div>
+    </div>
+
+    <!-- GAMEPLAY SCREEN -->
+    <div id="gameScreen" class="screen">
+        <!-- HUD -->
+        <div class="hud">
+            <div class="hud-left">
+                <div class="logo-small">
+                    <svg viewBox="0 0 100 100" class="logo-droplet-small">
+                        <path d="M50 20 C35 45, 25 55, 25 70 C25 82, 36 90, 50 90 C64 90, 75 82, 75 70 C75 55, 65 45, 50 20 Z" fill="#FFD700"/>
+                    </svg>
+                </div>
+                <div class="score-display">
+                    <label>Score</label>
+                    <span id="scoreValue">0</span>
+                </div>
+            </div>
+            <div class="hud-right">
+                <div class="timer-display">
+                    <label>Time</label>
+                    <span id="timerValue">60</span>
+                </div>
+                <div class="streak-display">
+                    <label>Streak</label>
+                    <span id="streakValue">0</span>
+                </div>
+            </div>
         </div>
-        <button id="restartBtn" class="btn">Restart</button>
-      </div>
-    </header>
 
-    <main class="main">
-      <div class="game-area">
-        <canvas id="gameCanvas" aria-label="Water Drop game canvas"></canvas>
-
-        <div id="message" class="message" aria-live="polite"></div>
-      </div>
-
-      <aside class="facts">
-        <div class="checkpoint">Next fact at: <span id="nextCheckpoint">50</span> pts</div>
-        <div id="factBox" class="fact-box" hidden>
-          <strong>Did you know?</strong>
-          <p id="factText"></p>
+        <!-- Game Area -->
+        <div id="gameArea" class="game-area">
+            <!-- Drops will be dynamically added here -->
         </div>
-        <div class="branding-note">
-          Inspired by <strong>charity: water</strong>'s mission to bring clean water to communities worldwide.
+
+        <!-- Feedback Messages -->
+        <div id="feedbackMessage" class="feedback-message"></div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-label">Clean Water Collection</div>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+                <span id="progressPercent" class="progress-percent">0%</span>
+            </div>
         </div>
-      </aside>
-    </main>
+    </div>
 
-    <footer class="footer">
-      <div class="controls">
-        <div class="control-hint">Tip: Tap or click falling drops to collect them.</div>
-      </div>
-    </footer>
-  </div>
+    <!-- FACT POPUP -->
+    <div id="factPopup" class="popup-overlay">
+        <div class="fact-card">
+            <div class="fact-icon">💧</div>
+            <h2>Did You Know?</h2>
+            <div id="factText" class="fact-text"></div>
+            <button class="continue-btn" onclick="hideFactPopup()">Continue Playing</button>
+        </div>
+    </div>
 
-  <script src="app.js"></script>
+    <!-- GAME OVER SCREEN -->
+    <div id="gameOverScreen" class="screen">
+        <div class="screen-content">
+            <div class="gameover-icon">🎉</div>
+            <h1 id="gameOverTitle">Time's Up!</h1>
+            
+            <div class="final-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">💯</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Final Score</span>
+                        <span id="finalScore" class="stat-value">0</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">💧</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Clean Drops</span>
+                        <span id="cleanDrops" class="stat-value">0</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">☠️</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Pollution Avoided</span>
+                        <span id="pollutionAvoided" class="stat-value">0</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Best Streak</span>
+                        <span id="bestStreak" class="stat-value">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="performance-message">
+                <p id="performanceText">Great job collecting clean water!</p>
+            </div>
+
+            <div class="impact-stats">
+                <h3>Your Impact</h3>
+                <p id="impactText">You collected enough drops to fill <strong id="bottlesCount">0</strong> water bottles!</p>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-primary" onclick="startGame()">Play Again</button>
+                <button class="btn-secondary" onclick="showFactPopup()">Learn More</button>
+            </div>
+
+            <div class="charity-cta">
+                <p>Every drop counts in the fight for clean water</p>
+                <a href="https://www.charitywater.org" target="_blank" class="cta-link">Visit charity: water →</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
 </body>
 </html>
