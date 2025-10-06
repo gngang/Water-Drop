@@ -64,7 +64,9 @@ body {
 
 /* ===== TITLE SCREEN ===== */
 .logo-container {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding-top: 20px;
     animation: fadeInScale 1s ease;
 }
 
@@ -74,8 +76,8 @@ body {
 }
 
 .logo-circle {
-    width: 130px;
-    height: 130px;
+    width: 110px;
+    height: 110px;
     margin: 0 auto 20px;
     background: var(--cw-white);
     border-radius: 50%;
@@ -89,7 +91,7 @@ body {
 
 @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
+    50% { transform: translateY(-10px); }
 }
 
 .logo-droplet {
