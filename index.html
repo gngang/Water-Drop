@@ -1,79 +1,157 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Water Flow: Campus Quest</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Water Quest - charity: water</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app">
-    <header id="header">
-      <div id="logo">
-        <!-- simulated logomark (replace with charity:water logo if you have the file) -->
-        <div id="logo-mark">CW</div>
-        <div id="title-block">
-          <div id="title">Water Flow: Campus Quest</div>
-          <div id="subtitle">Collect water. Dodge pollution. Learn real facts at checkpoints.</div>
-        </div>
-      </div>
-      <div id="header-right">
-        <div id="meter-wrap" aria-hidden="true">
-          <div id="meter-label">Water Meter</div>
-          <div id="water-meter"><div id="water-bar"></div></div>
-        </div>
-        <div id="score">Score: 0</div>
-      </div>
-    </header>
+    <!-- TITLE SCREEN -->
+    <div id="titleScreen" class="screen active">
+        <div class="screen-content">
+            <!-- charity: water Logo -->
+            <div class="logo-container">
+                <div class="logo-circle">
+                    <svg viewBox="0 0 100 100" class="logo-droplet">
+                        <path d="M50 10 C30 40, 20 50, 20 65 C20 80, 32 90, 50 90 C68 90, 80 80, 80 65 C80 50, 70 40, 50 10 Z" fill="#FFD700"/>
+                    </svg>
+                </div>
+                <h1 class="game-title">Campus Water Quest</h1>
+                <p class="tagline">A charity: water Mission Game</p>
+            </div>
 
-    <!-- GAME CANVAS (responsive & pixelated) -->
-    <main id="game-area">
-      <canvas id="gameCanvas"></canvas>
-    </main>
+            <div class="mission-text">
+                <p>Help restore clean water access across campus zones!</p>
+                <p class="small-text">Collect water droplets • Avoid pollution • Learn real facts at checkpoints</p>
+            </div>
 
-    <!-- Overlays: Start, Fact Popup, End -->
-    <div id="overlay-start" class="overlay visible">
-      <div class="panel">
-        <h2>Water Flow: Campus Quest</h2>
-        <p class="muted">Choose your character and restore water to campus zones. Facts appear only at flags (auto hide 40s).</p>
-        <div class="char-select">
-          <button class="char-btn selected" data-char="boy" id="pickBoy">Boy</button>
-          <button class="char-btn" data-char="girl" id="pickGirl">Girl</button>
+            <!-- Character Selection -->
+            <div class="character-selection">
+                <h3>Choose Your Character</h3>
+                <div class="char-buttons">
+                    <button class="char-btn selected" data-char="boy">
+                        <div class="char-preview boy-preview"></div>
+                        <span>Student 1</span>
+                    </button>
+                    <button class="char-btn" data-char="girl">
+                        <div class="char-preview girl-preview"></div>
+                        <span>Student 2</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Controls Info -->
+            <div class="controls-info">
+                <h3>Controls</h3>
+                <div class="control-grid">
+                    <div class="control-item">
+                        <span class="key">← →</span> or <span class="key">A D</span>
+                        <p>Move Left/Right</p>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">SPACE</span> or <span class="key">↑</span> or <span class="key">W</span>
+                        <p>Jump</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="start-btn" id="startGameBtn">Start Mission</button>
+
+            <div class="branding-footer">
+                <p>Inspired by charity: water's mission to bring clean water to communities worldwide</p>
+            </div>
         </div>
-        <div class="controls-note">Controls: ← → or A D to move, Space or W or ↑ to jump</div>
-        <div class="actions">
-          <button class="main-btn" id="startBtn">Start Zone 1</button>
-          <button class="ghost-btn" id="demoFact">Demo Fact</button>
-        </div>
-        <div class="small muted">Branding colors, labeled wireframe and UI elements included (title, score, meter, buttons, icons).</div>
-      </div>
     </div>
 
-    <div id="overlay-fact" class="overlay" style="display:none">
-      <div class="fact-panel">
-        <div class="fact-title">Fact</div>
-        <div id="factText"></div>
-        <div class="small muted">This will close automatically after 40 seconds</div>
-      </div>
-    </div>
-
-    <div id="overlay-end" class="overlay" style="display:none">
-      <div class="panel">
-        <h2 id="endTitle">Zone Complete</h2>
-        <p id="endSummary" class="muted"></p>
-        <div class="actions">
-          <button class="main-btn" id="nextBtn">Next Zone</button>
-          <button class="ghost-btn" id="restartBtn">Restart</button>
+    <!-- GAMEPLAY SCREEN -->
+    <div id="gameScreen" class="screen">
+        <!-- HUD -->
+        <div class="hud">
+            <div class="hud-left">
+                <div class="logo-small">
+                    <svg viewBox="0 0 100 100" class="logo-droplet-small">
+                        <path d="M50 10 C30 40, 20 50, 20 65 C20 80, 32 90, 50 90 C68 90, 80 80, 80 65 C80 50, 70 40, 50 10 Z" fill="#FFD700"/>
+                    </svg>
+                </div>
+                <div class="zone-info">
+                    <span id="zoneName">Loading...</span>
+                </div>
+            </div>
+            <div class="hud-right">
+                <div class="water-meter-container">
+                    <label>Water Collection</label>
+                    <div class="water-meter">
+                        <div id="waterFill" class="water-fill"></div>
+                        <span id="waterPercent" class="water-percent">0%</span>
+                    </div>
+                </div>
+                <div class="score-display">
+                    <label>Score</label>
+                    <span id="scoreValue">0</span>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <!-- Game Canvas -->
+        <div class="canvas-container">
+            <canvas id="gameCanvas"></canvas>
+        </div>
+
+        <!-- Mobile Controls (shown on small screens) -->
+        <div class="mobile-controls">
+            <button class="mobile-btn" id="mobileLeft">←</button>
+            <button class="mobile-btn" id="mobileJump">JUMP</button>
+            <button class="mobile-btn" id="mobileRight">→</button>
+        </div>
     </div>
 
-    <footer id="footer">
-      <div class="muted">Prototype built with HTML/CSS/JS — suitable for portfolio submission. Replace logomark with official charity: water logo for final deliverable.</div>
-    </footer>
-  </div>
+    <!-- FACT POPUP -->
+    <div id="factPopup" class="popup-overlay">
+        <div class="fact-card">
+            <div class="fact-icon">💧</div>
+            <h2>Checkpoint Reached!</h2>
+            <div id="factText" class="fact-text"></div>
+            <div class="fact-timer">
+                <div id="factTimerBar" class="fact-timer-bar"></div>
+            </div>
+            <p class="fact-note">Auto-closing in <span id="factCountdown">40</span>s</p>
+        </div>
+    </div>
 
-  <script src="game.js"></script>
+    <!-- VICTORY SCREEN -->
+    <div id="victoryScreen" class="screen">
+        <div class="screen-content">
+            <div class="victory-icon">🎉</div>
+            <h1 id="victoryTitle">Zone Complete!</h1>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-label">Water Collected</span>
+                    <span id="waterStat" class="stat-value">0%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Final Score</span>
+                    <span id="finalScore" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Facts Learned</span>
+                    <span id="factsLearned" class="stat-value">0</span>
+                </div>
+            </div>
+            <div class="impact-message">
+                <p id="impactText">Every drop you collected represents real impact!</p>
+            </div>
+            <div class="victory-buttons">
+                <button class="btn-primary" id="nextZoneBtn">Next Zone</button>
+                <button class="btn-secondary" id="restartBtn">Restart Mission</button>
+            </div>
+            <div class="charity-cta">
+                <p>Learn more about clean water access:</p>
+                <a href="https://www.charitywater.org" target="_blank" class="cta-link">Visit charity: water →</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
 </body>
 </html>
-
