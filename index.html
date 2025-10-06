@@ -1,41 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Water Flow: Campus Quest</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>💧 Water Flow: Campus Quest 💧</h1>
-    <p class="subtitle">
-      Help our students clean the campus and learn about <strong>charity: water</strong>!
-    </p>
-  </header>
+  <div id="app">
+    <header id="header">
+      <div id="logo">
+        <!-- simulated logomark (replace with charity:water logo if you have the file) -->
+        <div id="logo-mark">CW</div>
+        <div id="title-block">
+          <div id="title">Water Flow: Campus Quest</div>
+          <div id="subtitle">Collect water. Dodge pollution. Learn real facts at checkpoints.</div>
+        </div>
+      </div>
+      <div id="header-right">
+        <div id="meter-wrap" aria-hidden="true">
+          <div id="meter-label">Water Meter</div>
+          <div id="water-meter"><div id="water-bar"></div></div>
+        </div>
+        <div id="score">Score: 0</div>
+      </div>
+    </header>
 
-  <!-- Game Canvas -->
-  <main id="game-zone">
-    <canvas id="gameCanvas" width="800" height="400"></canvas>
-  </main>
+    <!-- GAME CANVAS (responsive & pixelated) -->
+    <main id="game-area">
+      <canvas id="gameCanvas"></canvas>
+    </main>
 
-  <!-- Character Selection -->
-  <section id="character-select">
-    <h2>Select Your Character</h2>
-    <button class="char-btn" data-char="boy">Boy Student</button>
-    <button class="char-btn" data-char="girl">Girl Student</button>
-  </section>
+    <!-- Overlays: Start, Fact Popup, End -->
+    <div id="overlay-start" class="overlay visible">
+      <div class="panel">
+        <h2>Water Flow: Campus Quest</h2>
+        <p class="muted">Choose your character and restore water to campus zones. Facts appear only at flags (auto hide 40s).</p>
+        <div class="char-select">
+          <button class="char-btn selected" data-char="boy" id="pickBoy">Boy</button>
+          <button class="char-btn" data-char="girl" id="pickGirl">Girl</button>
+        </div>
+        <div class="controls-note">Controls: ← → or A D to move, Space or W or ↑ to jump</div>
+        <div class="actions">
+          <button class="main-btn" id="startBtn">Start Zone 1</button>
+          <button class="ghost-btn" id="demoFact">Demo Fact</button>
+        </div>
+        <div class="small muted">Branding colors, labeled wireframe and UI elements included (title, score, meter, buttons, icons).</div>
+      </div>
+    </div>
 
-  <!-- Fact Popup -->
-  <div id="fact-box" class="hidden"></div>
+    <div id="overlay-fact" class="overlay" style="display:none">
+      <div class="fact-panel">
+        <div class="fact-title">Fact</div>
+        <div id="factText"></div>
+        <div class="small muted">This will close automatically after 40 seconds</div>
+      </div>
+    </div>
 
-  <!-- Game Instructions -->
-  <footer>
-    <h3>Controls</h3>
-    <p>Use <strong>WASD</strong> or <strong>Arrow Keys</strong> to move. Space to jump.</p>
-    <p>Goal: Jump over pollution, collect water, and reach each flag for facts!</p>
-  </footer>
+    <div id="overlay-end" class="overlay" style="display:none">
+      <div class="panel">
+        <h2 id="endTitle">Zone Complete</h2>
+        <p id="endSummary" class="muted"></p>
+        <div class="actions">
+          <button class="main-btn" id="nextBtn">Next Zone</button>
+          <button class="ghost-btn" id="restartBtn">Restart</button>
+        </div>
+      </div>
+    </div>
 
-  <script src="script.js"></script>
+    <footer id="footer">
+      <div class="muted">Prototype built with HTML/CSS/JS — suitable for portfolio submission. Replace logomark with official charity: water logo for final deliverable.</div>
+    </footer>
+  </div>
+
+  <script src="game.js"></script>
 </body>
 </html>
+
