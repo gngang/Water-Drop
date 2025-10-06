@@ -79,32 +79,46 @@ let gameStartTime;
 
 // ===== INITIALIZATION =====
 function init() {
+    console.log('Game initializing...');
+    console.log('Start button:', startGameBtn);
     setupEventListeners();
 }
 
 // ===== EVENT LISTENERS =====
 function setupEventListeners() {
-    startGameBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('Start button clicked!');
-        startGame();
-    });
+    if (startGameBtn) {
+        startGameBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Start button clicked!');
+            startGame();
+        });
+        console.log('Start button listener attached');
+    } else {
+        console.error('Start button not found!');
+    }
     
-    playAgainBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('Play again clicked!');
-        startGame();
-    });
+    if (playAgainBtn) {
+        playAgainBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Play again clicked!');
+            startGame();
+        });
+    }
     
-    learnMoreBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        showFactPopup();
-    });
+    if (learnMoreBtn) {
+        learnMoreBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            showFactPopup();
+        });
+    }
     
-    continueBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        hideFactPopup();
-    });
+    if (continueBtn) {
+        continueBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            hideFactPopup();
+        });
+    }
 }
 
 // ===== SCREEN MANAGEMENT =====
