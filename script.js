@@ -372,7 +372,6 @@ function showGameOverScreen() {
 }
 
 // ===== START THE GAME =====
-document.addEventListener('DOMContentLoaded', () => {
-    init();
-});
+init();
+
 
