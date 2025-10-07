@@ -1,22 +1,7 @@
-/* Charity: water Brand Colors & Fonts
-
-Primary Colors:
-- Yellow:     #FFC907
-- Blue:       #2E9DF7
-
-Secondary Colors:
-- Light Blue: #8BD1CB
-- Green:      #4FCB53
-- Orange:     #FF902A
-- Red:        #F5402C
-- Dark Green: #159A48
-- Pink:       #F16061
-
-Fonts:
-- Proxima Nova
-- Avenir
-
-*/
+/* ==========================================
+   CHARITY: WATER WATER DROP GAME
+   Brand Colors: Yellow #FFC907, Blue #2E9DF7
+   ========================================== */
 
 * {
     margin: 0;
@@ -29,8 +14,9 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 100%);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    padding: 20px;
 }
 
 .game-wrapper {
@@ -38,108 +24,429 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    max-width: 900px;
+    width: 100%;
 }
 
-.score-panel {
-    display: flex;
-    justify-content: space-between;  /* Space between score and button */
-    align-items: center;
-    width: 800px;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.timer {
-    flex: 0 1 auto;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-#game-container {
-    width: 800px;
-    height: 600px;
-    background-color: #e6f7ff;
-    border: 2px solid #333;
-    border-radius: 8px;
-    position: relative;
-    overflow: hidden;
-}
-
-
-#start-btn {
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-#start-btn:hover {
-    background-color: #45a049;
-}
-
-.score {
-    flex: 0 1 auto;  /* Don't grow, can shrink, auto basis */
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.water-drop {
-    position: absolute;
-    width: 60px;  /* increased from 40px */
-    height: 60px; /* increased from 40px */
-    background-color: #0099ff;
+/* LOGO */
+.logo-container {
+    width: 100px;
+    height: 100px;
+    background: white;
     border-radius: 50%;
-    animation: dropFall linear forwards;
-    transform-origin: center;
-    cursor: pointer;
-    padding: 15px;  /* Add padding for larger click area */
-    margin: -15px;  /* Offset padding to maintain visual size */
-    transition: transform 0.1s ease;  /* Smooth hover effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border: 4px solid #FFC907;
+    padding: 15px;
 }
 
-.water-drop:hover {
-    transform: scale(1.1);  /* Slight grow effect on hover */
+.cw-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
-.bad-drop {
-    background-color: #ff4444;
-}
-
+/* TITLE */
 .game-title {
-    color: #131313;
-    font-size: 48px;
-    margin-top: 0;
-    margin-bottom: 5px;  /* reduced from 20px */
+    color: #005A87;
+    font-size: 56px;
+    font-weight: 900;
+    margin: 10px 0 5px;
     text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .game-tagline {
-    color: #666;
-    font-size: 18px;
-    margin-bottom: 20px;
+    color: #2E9DF7;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.mission-text {
+    color: #005A87;
+    font-size: 16px;
+    font-weight: 600;
+    font-style: italic;
+    margin-bottom: 10px;
     text-align: center;
 }
 
+/* SCORE PANEL */
+.score-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 3px solid #FFC907;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.score, .streak, .timer {
+    font-size: 22px;
+    font-weight: bold;
+    color: #005A87;
+    flex: 0 1 auto;
+}
+
+.score span {
+    color: #FFC907;
+    font-size: 28px;
+}
+
+.streak span {
+    color: #F5402C;
+    font-size: 28px;
+}
+
+.timer span {
+    color: #2E9DF7;
+    font-size: 28px;
+}
+
+#start-btn, #play-again-btn {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #FFC907, #FFB000);
+    color: #005A87;
+    border: 3px solid white;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+}
+
+#start-btn:hover, #play-again-btn:hover {
+    transform: translateY(-2px);
+}
+
+#start-btn:active, #play-again-btn:active {
+    transform: translateY(0);
+}
+
+/* GAME CONTAINER */
+#game-container {
+    width: 100%;
+    max-width: 800px;
+    height: 500px;
+    background: linear-gradient(180deg, #87CEEB 0%, #B8E6F5 100%);
+    border: 4px solid #2E9DF7;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* WATER DROPS */
+.water-drop {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: dropFall linear forwards;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.water-drop:hover {
+    transform: scale(1.15);
+}
+
+.water-drop.clean {
+    background-image: url('images/falling water droplet.png');
+}
+
+/* Pollutant images set dynamically in JS */
+
 @keyframes dropFall {
     from {
-        transform: translateY(-20px);
+        transform: translateY(-60px);
     }
     to {
-        transform: translateY(600px);
+        transform: translateY(560px);
     }
 }
 
+/* FEEDBACK MESSAGE */
+.feedback-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    font-weight: 900;
+    color: white;
+    text-shadow: 3px 3px 0 #005A87, 4px 4px 10px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 100;
+}
+
+.feedback-message.show {
+    animation: feedbackPop 1s ease;
+}
+
+@keyframes feedbackPop {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -70%) scale(1);
+    }
+}
+
+/* PROGRESS BAR */
+.progress-container {
+    width: 100%;
+    max-width: 800px;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 3px solid #FFC907;
+}
+
+.progress-label {
+    font-size: 13px;
+    color: #2E9DF7;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 35px;
+    background: rgba(46, 157, 247, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    border: 3px solid #2E9DF7;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #4DD0E1, #2E9DF7, #005A87);
+    transition: width 0.5s ease;
+    border-radius: 20px;
+}
+
+.progress-percent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    font-weight: 900;
+    color: #005A87;
+    text-shadow: 0 0 3px white;
+}
+
+/* CHARITY WATER FOOTER */
+.cw-footer {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px 25px;
+    background: rgba(46, 157, 247, 0.15);
+    border-radius: 12px;
+    border: 3px solid rgba(46, 157, 247, 0.4);
+    text-align: center;
+}
+
+.cw-footer p {
+    color: #005A87;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.6;
+    margin: 8px 0;
+}
+
+.cw-footer strong {
+    color: #2E9DF7;
+    font-size: 17px;
+}
+
+.small-text {
+    font-size: 13px !important;
+    font-style: italic;
+    color: #2E9DF7;
+}
+
+/* GAME OVER MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, white, #F0F8FF);
+    padding: 40px;
+    border-radius: 25px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 5px #FFC907, 0 0 0 10px white;
+    animation: modalPop 0.5s ease;
+}
+
+@keyframes modalPop {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-content h2 {
+    color: #FFC907;
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 25px;
+    text-shadow: 3px 3px 0 #005A87;
+}
+
+.final-stats {
+    background: rgba(255, 201, 7, 0.2);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    border: 3px solid #FFC907;
+}
+
+.final-stats p {
+    font-size: 20px;
+    color: #005A87;
+    font-weight: 700;
+    margin: 10px 0;
+}
+
+.final-stats span {
+    font-size: 28px;
+    color: #2E9DF7;
+    font-weight: 900;
+}
+
+.impact-message {
+    background: rgba(46, 157, 247, 0.2);
+    padding: 18px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border: 3px solid #2E9DF7;
+}
+
+.impact-message p {
+    font-size: 18px;
+    color: #005A87;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.cw-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #2E9DF7, #005A87);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 800;
+    font-size: 16px;
+    transition: transform 0.2s;
+    box-shadow: 0 5px 15px rgba(46, 157, 247, 0.4);
+}
+
+.cw-link:hover {
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
 @media (max-width: 850px) {
-    .game-wrapper, .score-panel, #game-container {
-        width: 95vw;
+    .game-title {
+        font-size: 42px;
+    }
+    
+    .score-panel {
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .score, .streak, .timer {
+        font-size: 18px;
+    }
+    
+    .score span, .streak span, .timer span {
+        font-size: 22px;
     }
     
     #game-container {
-        height: 70vh;
+        height: 400px;
+    }
+    
+    .modal-content {
+        padding: 30px 20px;
+    }
+    
+    .modal-content h2 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 600px) {
+    .game-title {
+        font-size: 36px;
+    }
+    
+    .game-tagline {
+        font-size: 16px;
+    }
+    
+    #game-container {
+        height: 350px;
+    }
+    
+    .feedback-message {
+        font-size: 36px;
     }
 }
