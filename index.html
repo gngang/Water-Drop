@@ -3,23 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Drop Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Water Drop - charity: water Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="game-wrapper">
+        <!-- charity: water Logo -->
+        <div class="logo-container">
+            <img src="images/cw jerry can.png" alt="charity: water" class="cw-logo">
+        </div>
+        
         <h1 class="game-title">Water Drop</h1>
-        <p class="game-tagline">Catch the good drops, avoid the bad ones!</p>
+        <p class="game-tagline">Collect clean water, avoid pollution!</p>
+        <p class="mission-text">Help charity: water bring clean water to communities in need</p>
+        
         <div class="score-panel">
             <div class="score">Score: <span id="score">0</span></div>
-            <div class="timer">Time: <span id="time">30</span>s</div>
-            <button id="start-btn">Start Game</button>
+            <div class="streak">Streak: <span id="streak">0</span></div>
+            <div class="timer">Time: <span id="time">60</span>s</div>
+            <button id="start-btn">Start Collecting</button>
         </div>
         
         <div id="game-container">
+            <div id="feedback-message" class="feedback-message"></div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-label">Clean Water Collection Progress</div>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
+                <span id="progress-percent" class="progress-percent">0%</span>
+            </div>
+        </div>
+
+        <!-- charity: water Footer Message -->
+        <div class="cw-footer">
+            <p>💧 <strong>771 million people</strong> lack access to clean water worldwide.</p>
+            <p>Every drop you collect represents hope for communities in need.</p>
+            <p class="small-text">Inspired by charity: water's mission to bring clean water to everyone.</p>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="game-over-modal" class="modal">
+        <div class="modal-content">
+            <h2>Time's Up!</h2>
+            <div class="final-stats">
+                <p>Final Score: <span id="final-score">0</span></p>
+                <p>Clean Drops: <span id="clean-drops">0</span></p>
+                <p>Best Streak: <span id="best-streak">0</span></p>
+            </div>
+            <div class="impact-message">
+                <p id="performance-message"></p>
+            </div>
+            <button id="play-again-btn">Play Again</button>
+            <a href="https://www.charitywater.org" target="_blank" class="cw-link">Learn More About charity: water →</a>
         </div>
     </div>
     
-    <script src="script.js"></script>
+    <script src="game.js"></script>
 </body>
 </html>
