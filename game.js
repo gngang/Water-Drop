@@ -1,10 +1,12 @@
 // ==========================================
 // WATER DROP GAME - charity: water
-// game.js
+// game.js (DEBUGGED)
 // ==========================================
 
 // Wait until the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM fully loaded. Initializing game...');
+
     // CONFETTI FUNCTION
     function triggerConfetti() {
         const colors = ['#FFC907', '#2E9DF7', '#4FCB53', '#FF902A'];
@@ -31,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             fall.onfinish = () => confetti.remove();
         }
-        
         showFeedback('🎉 100% FULL! 🎉', '#FFC907');
     }
 
@@ -75,17 +76,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const streakDisplay = document.getElementById('streak');
     const timeDisplay = document.getElementById('time');
     const gameContainer = document.getElementById('game-container');
-    const feedbackMessage = document.getElementById('feedback-message');
     const progressFill = document.getElementById('progress-fill');
     const progressPercent = document.getElementById('progress-percent');
     const gameOverModal = document.getElementById('game-over-modal');
 
-    // EVENT LISTENERS
-    if (startBtn) startBtn.addEventListener('click', startGame);
-    if (playAgainBtn) playAgainBtn.addEventListener('click', restartGame);
+    // --- ADD DEBUG LOGS ---
+    console.log({
+        startBtn,
+        playAgainBtn,
+        gameContainer
+    });
+
+    // --- EVENT LISTENERS ---
+    if (startBtn) {
+        startBtn.addEventListener('click', () => {
+            console.log('Start button clicked!');
+            startGame();
+        });
+    } else {
+        console.error('❌ Start button not found! Check your HTML: id="start-btn"');
+    }
+
+    if (playAgainBtn) {
+        playAgainBtn.addEventListener('click', restartGame);
+    }
 
     // --- GAME LOGIC FUNCTIONS BELOW ---
-
     function startGame() {
         if (gameState.running) return;
         console.log('Starting game...');
@@ -101,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             confettiTriggered: false
         });
 
+        // Clear and reset container
         gameContainer.innerHTML = '<div id="feedback-message" class="feedback-message"></div>';
         updateDisplays();
 
@@ -109,10 +126,12 @@ document.addEventListener('DOMContentLoaded', () => {
         dropMaker = setInterval(createDrop, CONFIG.DROP_SPAWN_INTERVAL);
         gameTimer = setInterval(updateTimer, 1000);
 
+        // Initial drops
         createDrop();
         setTimeout(createDrop, 300);
         setTimeout(createDrop, 600);
-        console.log('Game started!');
+
+        console.log('✅ Game started successfully');
     }
 
     function createDrop() {
@@ -131,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         drop.dataset.isPolluted = isPolluted;
-        const gameWidth = gameContainer.offsetWidth;
+        const gameWidth = gameContainer.offsetWidth || 300; // fallback
         const xPosition = Math.random() * (gameWidth - 50);
         drop.style.left = `${xPosition}px`;
         drop.style.animationDuration = '4s';
@@ -181,15 +200,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateDisplays() {
+        if (!scoreDisplay || !streakDisplay || !timeDisplay) return;
         scoreDisplay.textContent = gameState.score;
         streakDisplay.textContent = gameState.streak;
         timeDisplay.textContent = gameState.timeLeft;
+
         const targetDrops = 50;
         const percentage = Math.min(100, Math.round((gameState.cleanDropsCollected / targetDrops) * 100));
-        progressFill.style.width = percentage + '%';
-        progressPercent.textContent = percentage + '%';
+        if (progressFill) progressFill.style.width = percentage + '%';
+        if (progressPercent) progressPercent.textContent = percentage + '%';
         
-        // Trigger confetti at 100%
         if (percentage === 100 && !gameState.confettiTriggered) {
             gameState.confettiTriggered = true;
             triggerConfetti();
@@ -207,16 +227,19 @@ document.addEventListener('DOMContentLoaded', () => {
         gameState.running = false;
         clearInterval(dropMaker);
         clearInterval(gameTimer);
-        dropMaker = null;
-        gameTimer = null;
         document.querySelectorAll('.water-drop').forEach(drop => drop.remove());
         showGameOver();
     }
 
     function showGameOver() {
-        document.getElementById('final-score').textContent = gameState.score;
-        document.getElementById('clean-drops').textContent = gameState.cleanDropsCollected;
-        document.getElementById('best-streak').textContent = gameState.bestStreak;
+        const finalScore = document.getElementById('final-score');
+        const cleanDrops = document.getElementById('clean-drops');
+        const bestStreak = document.getElementById('best-streak');
+        const performanceMsg = document.getElementById('performance-message');
+
+        if (finalScore) finalScore.textContent = gameState.score;
+        if (cleanDrops) cleanDrops.textContent = gameState.cleanDropsCollected;
+        if (bestStreak) bestStreak.textContent = gameState.bestStreak;
 
         let message = '';
         if (gameState.score >= 400) message = '🌟 Outstanding! You\'re a water conservation champion!';
@@ -225,15 +248,16 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (gameState.score >= 100) message = '💪 Good effort! Every drop makes a difference!';
         else message = '💙 Keep trying! Together we can bring clean water to all!';
 
-        document.getElementById('performance-message').textContent = message;
-        gameOverModal.classList.add('active');
+        if (performanceMsg) performanceMsg.textContent = message;
+        if (gameOverModal) gameOverModal.classList.add('active');
     }
 
     function restartGame() {
-        gameOverModal.classList.remove('active');
+        if (gameOverModal) gameOverModal.classList.remove('active');
         timeDisplay.style.color = '#2E9DF7';
         startGame();
     }
 
-    console.log('Water Drop Game loaded!');
+    console.log('✅ Water Drop Game initialized');
 });
+
