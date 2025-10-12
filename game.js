@@ -4,6 +4,35 @@
 
 // Wait until the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // CONFETTI FUNCTION
+    function triggerConfetti() {
+        const colors = ['#FFC907', '#2E9DF7', '#4FCB53', '#FF902A'];
+        for (let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-10px';
+            confetti.style.borderRadius = '50%';
+            confetti.style.zIndex = '9999';
+            confetti.style.pointerEvents = 'none';
+            document.body.appendChild(confetti);
+            
+            const fall = confetti.animate([
+                { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+            ], {
+                duration: 3000 + Math.random() * 2000,
+                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+            });
+            
+            fall.onfinish = () => confetti.remove();
+        }
+        
+        showFeedback('🎉 100% FULL! 🎉', '#FFC907');
+    }
     // GAME CONFIG
     const CONFIG = {
         GAME_DURATION: 60,
@@ -30,7 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
         streak: 0,
         bestStreak: 0,
         cleanDropsCollected: 0,
-        pollutedHit: 0
+        pollutedHit: 0,
+        confettiTriggered: false  // ADD THIS LINE
+    };
     };
 
     let dropMaker = null;
@@ -153,8 +184,14 @@ document.addEventListener('DOMContentLoaded', () => {
         timeDisplay.textContent = gameState.timeLeft;
         const targetDrops = 50;
         const percentage = Math.min(100, Math.round((gameState.cleanDropsCollected / targetDrops) * 100));
-        progressFill.style.width = percentage + '%';
-        progressPercent.textContent = percentage + '%';
+    progressFill.style.width = percentage + '%';
+    progressPercent.textContent = percentage + '%';
+    
+    // Trigger confetti at 100%
+    if (percentage === 100 && !gameState.confettiTriggered) {
+        gameState.confettiTriggered = true;
+        triggerConfetti();
+    }
     }
 
     function updateTimer() {
