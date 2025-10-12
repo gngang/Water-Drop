@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         showFeedback('🎉 100% FULL! 🎉', '#FFC907');
     }
+
     // GAME CONFIG
     const CONFIG = {
         GAME_DURATION: 60,
@@ -60,8 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bestStreak: 0,
         cleanDropsCollected: 0,
         pollutedHit: 0,
-        confettiTriggered: false  // ADD THIS LINE
-    };
+        confettiTriggered: false
     };
 
     let dropMaker = null;
@@ -96,7 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
             streak: 0,
             bestStreak: 0,
             cleanDropsCollected: 0,
-            pollutedHit: 0
+            pollutedHit: 0,
+            confettiTriggered: false
         });
 
         gameContainer.innerHTML = '<div id="feedback-message" class="feedback-message"></div>';
@@ -184,14 +185,14 @@ document.addEventListener('DOMContentLoaded', () => {
         timeDisplay.textContent = gameState.timeLeft;
         const targetDrops = 50;
         const percentage = Math.min(100, Math.round((gameState.cleanDropsCollected / targetDrops) * 100));
-    progressFill.style.width = percentage + '%';
-    progressPercent.textContent = percentage + '%';
-    
-    // Trigger confetti at 100%
-    if (percentage === 100 && !gameState.confettiTriggered) {
-        gameState.confettiTriggered = true;
-        triggerConfetti();
-    }
+        progressFill.style.width = percentage + '%';
+        progressPercent.textContent = percentage + '%';
+        
+        // Trigger confetti at 100%
+        if (percentage === 100 && !gameState.confettiTriggered) {
+            gameState.confettiTriggered = true;
+            triggerConfetti();
+        }
     }
 
     function updateTimer() {
