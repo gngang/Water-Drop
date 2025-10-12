@@ -1,5 +1,6 @@
 // ==========================================
 // WATER DROP GAME - charity: water
+// game.js
 // ==========================================
 
 // Wait until the DOM is fully loaded
