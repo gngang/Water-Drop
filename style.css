@@ -93,6 +93,11 @@ body {
     flex-wrap: wrap;
 }
 
+#start-btn {
+    flex-basis: 100%;
+    margin: 10px auto 0;
+}
+
 .difficulty-selector {
     display: flex;
     align-items: center;
@@ -208,8 +213,8 @@ body {
 
 /* Make plastic bigger */
 .water-drop.plastic {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
 }
 
 /* Pollutant images set dynamically in JS */
