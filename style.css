@@ -93,6 +93,40 @@ body {
     flex-wrap: wrap;
 }
 
+.difficulty-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.difficulty-selector label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #005A87;
+    margin-right: 5px;
+}
+
+.diff-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    background: white;
+    color: #005A87;
+    border: 2px solid #2E9DF7;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.diff-btn:hover {
+    background: #E0F6FF;
+}
+
+.diff-btn.active {
+    background: #2E9DF7;
+    color: white;
+}
+
 .score, .streak, .timer {
     font-size: 22px;
     font-weight: bold;
@@ -170,6 +204,12 @@ body {
 
 .water-drop.clean {
     background-image: url('images/falling water droplet.png');
+}
+
+/* Make plastic bigger */
+.water-drop.plastic {
+    width: 80px;
+    height: 80px;
 }
 
 /* Pollutant images set dynamically in JS */
