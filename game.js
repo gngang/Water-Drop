@@ -53,13 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
         CLEAN_DROP_POINTS: 10,
         POLLUTED_DROP_PENALTY: 15,
         DROP_SPAWN_INTERVAL: {
-            easy: 1200,
-            normal: 800,
+            easy: 1500,
+            normal: 1200,
             hard: 500
         },
         DROP_FALL_DURATION: {
-            easy: '5s',
-            normal: '4s',
+            easy: '8s',
+            normal: '5s',
             hard: '2.5s'
         },
         STREAK_BONUS: 5,
